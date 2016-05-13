@@ -18,8 +18,7 @@
     become_user: root
     npm: >
       global=yes
-      name={{nodejs_lib_name}}
-      state=present
+      path="{{nodejs_lib_path}}"
 
   - name: Ensure the link of nodejs-lib
     become: yes

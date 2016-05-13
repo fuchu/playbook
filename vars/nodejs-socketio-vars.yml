@@ -1,7 +1,8 @@
 #nodejs library install path;nodejs lib库安装路径目前为全局安装，link到该参数指定的路径。
 nodejs_lib_path: ""
 
-#nodejs library name which is needed to be installed;需要安装的nodejs lib库名字。
-nodejs_lib_name:
-  - ""
-  - ""
+#pm2使用的文件
+app_real_name: ""
+#pm2指定的名字--name参数
+app_name: ""
+

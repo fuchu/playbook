@@ -1,0 +1,9 @@
+---
+- name: Ensure the socket.io service
+  hosts: 
+  become: yes
+  become_method: sudo
+  vars_files:
+  - vars/nodejs-socketio-vars.yml
+  roles:
+    - nodejs
