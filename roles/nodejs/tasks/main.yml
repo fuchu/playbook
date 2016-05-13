@@ -1,0 +1,29 @@
+---
+#Redhat
+  - name: Ensure the nodejs is present
+    become: yes
+    become_user: root
+    yum: name=nodejs state=present
+    when: ansible_os_family == "Redhat"
+
+#Ubuntu
+  - name: Ensure nodejs is present
+    become: yes
+    become_user: root
+    apt: name=nodejs state=present
+    when: ansible_os_family == "Debian" 
+
+  - name: Ensure  the nodejs env
+    become: yes
+    become_user: root
+    npm: >
+      global=yes
+      name={{nodejs_lib_name}}
+      state=present
+
+  - name: Ensure the link of nodejs-lib
+    become: yes
+    become_user: root
+    command: npm link {{nodejs_lib_name}} arg1
+    args:
+      chdir: "{{nodejs_lib_path}}"
