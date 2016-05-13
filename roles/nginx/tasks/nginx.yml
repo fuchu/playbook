@@ -1,0 +1,19 @@
+---
+#RHEL,AMI
+  - name: Ensure nginx is present
+    become: yes
+    become_user: root
+    yum: name=nginx state=present
+    when: ansible_os_family == "Redhat"
+
+#Ubuntu
+  - name: Ensure nginx is present
+    become: yes
+    become_user: root
+    apt: name=nginx state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Set the nginx configure
+    template: >
+      src="{{nginx_conf_name}}.conf.j2"
+      dest="/etc/nginx/conf.d/{{nginx_conf_name}}.conf"
