@@ -1,0 +1,9 @@
+---
+  - name: Ensure the configure on nagios server
+    copy: >
+      src = {{nagios_conf_name_src}}
+      dest = {{nagios_conf_path_dest}}
+      owner = nagios
+      mode = 644
+      force = yes
+    notify: restart nagios server 

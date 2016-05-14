@@ -1,0 +1,10 @@
+---
+  - name: Ensure the conf of nagios-client is right
+    copy: >
+      src="file/{{nagios_client_conf}}"
+      dest="{{nagios_client_conf_path}}"
+      mode=644
+      force=yes
+      backup=yes
+      owner=root
+    notify: Restart the nagios-client
