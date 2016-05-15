@@ -13,7 +13,17 @@
     apt: name=nginx state=present
     when: ansible_os_family == "Debian"
 
+  - name: Ensure nginx services is started
+    become: yes
+    become_user: root
+    service: name=nginx state=started enabled=yes
+
   - name: Set the nginx configure
-    template: >
-      src="{{nginx_conf_name}}.conf.j2"
-      dest="/etc/nginx/conf.d/{{nginx_conf_name}}.conf"
+    copy: >
+      src="{{nginx_conf_name}}"
+      dest="/etc/nginx/conf.d/{{nginx_conf_name}}"
+      mode=644
+      owner=root
+      backup=yes
+      force=yes
+    notify: Reload nginx service
