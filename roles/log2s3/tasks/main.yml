@@ -1,0 +1,24 @@
+---
+#RHEL,AMI
+  - name: Ensure nginx is present
+    become: yes
+    become_user: root
+    yum: name=s3cmd state=present
+    when: ansible_os_family == "Redhat"
+
+#Ubuntu
+  - name: Ensure nginx is present
+    become: yes
+    become_user: root
+    apt: name=s3cmd state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Set the logrotate conf with s3
+    become: yes
+    become_user: root
+    copy: >
+      src="file/{{logrotate_conf_name}}"
+      dest="{{logrotate_conf_path}}"
+      mode=644
+      force=yes
+      owner=root
