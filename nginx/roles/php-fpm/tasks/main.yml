@@ -1,0 +1,38 @@
+---
+#RHEL,AMI暂时只支持AWS AMI
+  - name: Ensure the repo on AMI
+    become: yes
+    become_user: root
+    yum_repository:
+      name: epel
+      state: present
+    when: ansible_os_family == "Redhat"
+
+#RHEL,AMI
+  - name: Ensure php-fpm is present
+    become: yes
+    become_user: root
+    yum: name=php-fpm state=present
+    when: ansible_os_family == "Redhat"
+
+#Ubuntu Ubuntu上貌似只有php-fpm5
+  - name: Ensure php-fpm is present
+    become: yes
+    become_user: root
+    apt: name=php-fpm5 state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure php-fpm services is started
+    become: yes
+    become_user: root
+    service: name=php-fpm state=started enabled=yes
+
+  - name: Set the php-fpm configure
+    copy: >
+      src="{{php_fpm_conf_name}}"
+      dest="/etc/php-fpm/conf.d/{{php_fpm_conf_name}}"
+      mode=644
+      owner=root
+      backup=yes
+      force=yes
+    notify: Reload php-fpm service

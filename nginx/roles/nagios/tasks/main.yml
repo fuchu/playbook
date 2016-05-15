@@ -1,0 +1,26 @@
+---
+#ubunut和ami的nrpe配置不一样
+
+  - name: Ensure the conf of nagios-client is right
+    become: yes
+    become_user: root
+    copy: >
+      src="file/{{nagios_client_conf_ami}}"
+      dest="{{nagios_client_conf_path_ami}}"
+      mode=644
+      force=yes
+      backup=yes
+      owner=root
+    notify: Restart the nagios-client
+
+  - name: Ensure the conf of nagios-client is right
+    become: yes
+    become_user: root
+    copy: >
+      src="file/{{nagios_client_conf_ubuntu}}"
+      dest="{{nagios_client_conf_path_ubuntu}}"
+      mode=644
+      force=yes
+      backup=yes
+      owner=root
+    notify: Restart the nagios-client

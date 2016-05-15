@@ -1,0 +1,8 @@
+---
+  - name: Reload php-fpm service
+    service: name=php-fpm5 state=reload
+    when: ansible_os_family == "Debian"
+
+  - name: Reload php-fpm service
+    service: name=php-fpm state=reload
+    when: ansible_os_family == "Redhat"

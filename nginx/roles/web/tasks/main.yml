@@ -1,0 +1,38 @@
+---
+#RHEL,AMI暂时只支持AWS AMI
+  - name: Ensure the repo on AMI
+    become: yes
+    become_user: root
+    yum_repository:  
+      name: epel
+      state: present
+    when: ansible_os_family == "Redhat"
+   
+#RHEL,AMI
+  - name: Ensure nginx is present
+    become: yes
+    become_user: root
+    yum: name=nginx state=present
+    when: ansible_os_family == "Redhat"
+
+#Ubuntu
+  - name: Ensure nginx is present
+    become: yes
+    become_user: root
+    apt: name=nginx state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure nginx services is started
+    become: yes
+    become_user: root
+    service: name=nginx state=started enabled=yes
+
+  - name: Set the nginx configure
+    copy: >
+      src="{{nginx_conf_name}}"
+      dest="/etc/nginx/conf.d/{{nginx_conf_name}}"
+      mode=644
+      owner=root
+      backup=yes
+      force=yes
+    notify: Reload nginx service

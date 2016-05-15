@@ -1,0 +1,5 @@
+---
+  - name: Restart the nagios-client
+    become: yes
+    become_user: root
+    service: name=nrpe state=restarted

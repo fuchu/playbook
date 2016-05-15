@@ -1,0 +1,5 @@
+---
+  - name: Reload nginx service
+    become: yes
+    become_user: root
+    service: name=nginx state=reload
