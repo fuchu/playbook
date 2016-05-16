@@ -30,7 +30,7 @@
   - name: Set the php-fpm configure
     copy: >
       src="{{php_fpm_conf_name}}"
-      dest="/etc/php-fpm/conf.d/{{php_fpm_conf_name}}"
+      dest="{{php_fpm_conf_name_path}}"
       mode=644
       owner=root
       backup=yes

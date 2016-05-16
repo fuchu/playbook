@@ -1,0 +1,22 @@
+---
+nginx_conf_name:
+php_fpm_conf_name:
+nagios_client_conf_ami:
+nrpe_client_check_scripts_ami:
+nagios_client_conf_ubuntu:
+nrpe_client_check_scripts_ubuntu:
+
+
+
+
+
+########default var#############
+php_fpm_conf_name_path: "/etc/php-fpm/conf.d/{{php_fpm_conf_name}}"
+
+########AMI#####################
+nagios_client_conf_path_ami: "/etc/nagios/"
+nrpe_client_check_scripts_path_ami: "/usr/lib/nagios/plugins"
+
+########Ubuntu#################
+nagios_client_conf_path_ubuntu: "/etc/nagios/"
+nrpe_client_check_scripts_path_ubuntu: "/usr/lib64/nagios/plugins"

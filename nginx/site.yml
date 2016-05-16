@@ -1,0 +1,6 @@
+---
+- hosts: webservers
+  roles: 
+    - web
+    - php-fpm
+    - nagios-client
