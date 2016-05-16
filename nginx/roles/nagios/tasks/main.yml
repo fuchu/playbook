@@ -1,6 +1,20 @@
 ---
 #ubunut和ami的nrpe配置不一样
 
+###########################AMI#######################################
+
+  - name: Ensure the nagios-client env
+    become: yes
+    become_user: root
+    yum: pkg={{item}} state=present
+    when: ansible_os_family == "Redhat"
+    with_items:
+    - nagios-plugins-nrpe.x86_64
+    - nrpe.x86_64
+    - nagios-plugins-all
+    - perl-Nagios-Plugin
+    - vnstat
+
   - name: Ensure the conf of nagios-client is right
     become: yes
     become_user: root
@@ -11,7 +25,42 @@
       force=yes
       backup=yes
       owner=root
+    when: ansible_os_family == "Redhat"
     notify: Restart the nagios-client
+
+  - name: Ensure the check_script is present
+    become: yes
+    become_user: root
+    copy: >
+      src="{{nrpe_client_check_scripts_ami}}"
+      dest="{{nrpe_client_check_scripts_path_ami}}"
+      mode=755
+      owner=root
+    when: ansible_os_family == "Redhat"
+    notify: Restart the nagios-client
+    
+###########################ubuntu#################################
+
+  - name: Ensure the nagios-client env
+    become: yes
+    become_user: root
+    apt: pkg={{item}} state=present
+    when: ansible_os_family == "Debian"
+    with_items:
+    - libssl-dev
+    - openssl
+    - telnet
+    - nagios-nrpe-server
+    - libcurl3-openssl-dev
+    - nload
+    - nagios-plugins
+    - nagios-nrpe-plugin
+    - nagios-plugins-basic
+    - nagios-plugins-common
+    - nagios-plugins-standard
+    - nagios-plugins-contrib
+    - nagios-plugins-extra
+    - libnagios-plugin-perl
 
   - name: Ensure the conf of nagios-client is right
     become: yes
@@ -23,4 +72,16 @@
       force=yes
       backup=yes
       owner=root
-    notify: Restart the nagios-client
+    when: ansible_os_family == "Debian"
+    notify: Restart the nagios-client ubuntu
+
+  - name: Ensure the check_script is present
+    become: yes
+    become_user: root
+    copy: >
+      src="{{nrpe_client_check_scripts_ubuntu}}"
+      dest="{{nrpe_client_check_scripts_path_ubuntu}}"
+      mode=755
+      owner=root
+    when: ansible_os_family == "Debian"
+    notify: Restart the nagios-client ubuntu

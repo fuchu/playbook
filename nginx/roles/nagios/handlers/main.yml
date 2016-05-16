@@ -1,5 +1,21 @@
 ---
+#####################----AMI----############################
   - name: Restart the nagios-client
     become: yes
     become_user: root
-    service: name=nrpe state=restarted
+    service: name={{ item }} state=restarted
+    with_items:
+      - nrpe
+      - rsyslog
+    when: ansible_os_family == "Redhat"
+
+#####################----Ubuntu----############################
+
+  - name: Restart the nagios-client
+    become: yes
+    become_user: root
+    service: name={{ item }} state=restarted
+    with_items:
+      - nagios-nrpe-server 
+      - rsyslog
+    when: ansible_os_family == "Debian"
