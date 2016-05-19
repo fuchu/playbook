@@ -1,0 +1,33 @@
+  - name: Ensure the dir's user
+    file: path={{nodejs_root_path}}/builds recurse=yes state=directory owner=root group=root
+
+  - name: Get new repo
+    git: >
+      repo={{ github_repo }}
+      dest={{ git_dest_dir_path }}
+      recursive=yes
+      accept_hostkey=yes
+      force=yes
+      key_file={{ key_file_path }}
+      version={{git_num}}
+
+#  - name: The live file
+#    become: yes
+#    become_user: root
+#    file: >
+#      src="{{live_dir}}/build-{{livebuildnumber}}"
+#      dest="{{nginx_dir}}"
+#      state=link
+#      force=yes
+
+  - name: delete the useless builds
+    become: yes
+    become_user: root
+    file: >
+      path={{src_dir}}/{{rm_builds}}
+      state=absent
+
+  - name: Ensure the nodejs env
+    become: yes
+    become_user: root
+    npm: path={{nodejs_lib_path}}

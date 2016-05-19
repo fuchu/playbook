@@ -1,0 +1,4 @@
+  - name: Ensure the node is run
+    become: yes
+    become_user: root
+    command: pm2 restart {{app_real_name}} -i 4 --name {{app_name}} chdir="{{nodejs_lib_path}}"

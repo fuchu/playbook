@@ -1,8 +1,18 @@
-#nodejs library install path;nodejs lib库安装路径目前为全局安装，link到该参数指定的路径。
-nodejs_lib_path: ""
+livebuildnumber: 4
+prevbuildnumber: 3
+rmbuildnumber: 2
+nodejs_root_path: "/var/www/npm-test"
+github_repo: "git@github.com:fuchu/npm-status-www.git"
+git_dest_dir_path: "{{nodejs_root_path}}/builds/build-{{livebuildnumber}}"
+key_file_path: "~/.ssh/npm-deploy-script-test.pem"
+live_dir: "{{nodejs_root_path}}/builds"
+src_dir: "{{live_dir}}"
+rm_builds: "build-{{rmbuildnumber}}"
+dest_dir: "{{nodejs_root_path}}"
+nodejs_dir: "{{nodejs_root_path}}/btcc"
+git_num: "npm-deploy-script-test-{{livebuildnumber}}"
 
-#pm2使用的文件
-app_real_name: ""
-#pm2指定的名字--name参数
-app_name: ""
-
+nodejs_lib_path: "{{git_dest_dir_path}}"
+#
+app_real_name: "app.js"
+app_name: "socketio_test"

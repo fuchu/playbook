@@ -1,0 +1,44 @@
+---
+#  - name: Init script
+#    become: yes
+#    become_user: root
+#    copy: >
+#      src={{init_script}}
+#      dest={{remote_init_path}}
+#      mode=755
+#      force=yes
+#    notify: pm2 restart
+
+  - name: Upload all exists
+    become: yes
+    become_user: root
+    synchronize:
+      src: "{{src_dir}}"
+      dest: "{{dest_dir}}"
+      recursive: yes
+      delete: yes
+      rsync_opts:
+        #- "--exclude=node_modules --delete-excluded=node_modules --force"
+        - "--exclude=node_modules --force"
+
+  - name: Build the code
+    become: yes
+    become_user: root
+    npm: path={{nodejs_lib_path}}
+
+  - name: The live file
+    become: yes
+    become_user: root
+    file: >
+      src="{{live_dir}}/build-{{livebuildnumber}}"
+      dest="{{nodejs_dir}}"
+      state=link
+      force=yes
+    notify: Ensure the node is run
+
+  - name: delete the useless builds
+    become: yes
+    become_user: root
+    file: >
+      path={{src_dir}}/{{rm_builds}}
+      state=absent

@@ -1,0 +1,34 @@
+---
+#RHEL,AMI暂时只支持AWS AMI
+#  - name: Ensure the repo on AMI
+#    become: yes
+#    become_user: root
+#    yum_repository:
+#      name: epel
+#      state: present
+#    when: ansible_os_family == "RedHat"
+
+#Redhat
+  - name: Ensure the nodejs is present
+    become: yes
+    become_user: root
+    yum: name={{item}} state=installed
+    with_items:
+      - nodejs
+      - npm
+    when: ansible_os_family == "RedHat"
+
+#Ubuntu
+  - name: Ensure nodejs is present
+    become: yes
+    become_user: root
+    apt: name={{item}} state=installed
+    with_items:
+      - nodejs
+      - npm
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure the pm2 is present
+    become: yes
+    become_user: root
+    npm: name=pm2 global=yes

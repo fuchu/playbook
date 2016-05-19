@@ -1,9 +1,27 @@
 ---
 - name: Ensure the socket.io service
-  hosts: 
+  hosts: nodejs-test-server localhost
   become: yes
   become_method: sudo
   vars_files:
-  - vars/nodejs-socketio-vars.yml
+    - vars/nodejs-socketio-var.yml
   roles:
-    - nodejs
+    - nodejs-pm2
+
+- name: Ensure the socket.io service
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  vars_files:
+    - vars/nodejs-socketio-var.yml
+  roles:
+    - nodejs-socket-io-localhost
+
+- name: Ensure the socket.io service
+  hosts: nodejs-test-server
+  become: yes
+  become_method: sudo
+  vars_files:
+    - vars/nodejs-socketio-var.yml
+  roles:
+    - nodejs-socket-io
