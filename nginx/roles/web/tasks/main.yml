@@ -3,10 +3,11 @@
   - name: Ensure the repo on AMI
     become: yes
     become_user: root
-    yum_repository:  
-      name: epel
-      state: present
-    when: ansible_os_family == "Redhat"
+#    yum_repository:  
+#      name: epel
+#      state: present
+    command: " yum-config-manager --enable epel"
+    when: ansible_os_family == "RedHat"
    
 #RHEL,AMI
   - name: Ensure nginx is present
